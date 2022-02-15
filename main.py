@@ -30,7 +30,8 @@ def request(site_name, first=True):
             status_code = str(response.status_code)
             # status_code = '999'  # for error
             if status_code == '200':
-                print(datetime.now().strftime("%d-%m-%Y %H:%M") + ' Site available, status code: ' + status_code)
+                print(datetime.now().strftime("%d-%m-%Y %H:%M") + f' Site available: {site_name},'
+                                                                  f' status code: {status_code}')
                 time.sleep(60)
                 continue
             else:
@@ -69,15 +70,16 @@ if __name__ == '__main__':
 
     site = input(f'Enter site name for checking or new for add new entry:\n')
 
-    if site == 'new':
-        new_site = input('Enter new site name for add entry')
-        new_address = input('Enter new address for site')
+    if my_data.get(site) is None:
+        print("Name dont find!")
+        new_site = input("Enter new site name for add entry")
+        new_address = input("Enter new address for site")
 
         my_data[new_site] = new_address
         new_my_data = json.dumps(my_data)
 
         with open('config_sites.json', 'w') as f:
             f.write(new_my_data)
-        site = new_address
-
-    request(my_data.get(site))
+        request(new_address)
+    else:
+        request(my_data.get(site))
