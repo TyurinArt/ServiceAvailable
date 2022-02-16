@@ -30,22 +30,22 @@ def request(site_name, first=True):
             status_code = str(response.status_code)
             # status_code = '999'  # for error
             if status_code == '200':
-                print(datetime.now().strftime("%d-%m-%Y %H:%M") + f' Site available: {site_name},'
-                                                                  f' status code: {status_code}')
+                print(f'{datetime.now().strftime("%d-%m-%Y %H:%M")} Site available: {site_name}, '
+                      f'status code: {status_code}')
                 time.sleep(60)
                 continue
             else:
-                print('WARNING!' + status_code)
+                print(f'WARNING! {status_code}')
                 time.sleep(60)
 
                 if first:
-                    print('site unavailable' + status_code + '\nAlert to administration'
-                                                             '\nApache will be restarting, after 5 minutes...')
+                    print(f'site unavailable  {status_code} \nAlert to administration'
+                          f'\nApache will be restarting, after 5 minutes...')
                     alert_to_admin()
                     time.sleep(300)
                     request(site_name, False)
                 else:
-                    print('site unavailable' + status_code + '\nApache restarting...')
+                    print(f'site unavailable {status_code} \nApache restarting...')
                     os.system('httpd -k restart')
                     time.sleep(300)
                     request(site_name)
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     site = input(f'Enter site name for checking or new for add new entry:\n')
 
     if my_data.get(site) is None:
-        print("Name dont find!")
+        print("Name don't find!")
         new_site = input("Enter new site name for add entry")
         new_address = input("Enter new address for site")
 
